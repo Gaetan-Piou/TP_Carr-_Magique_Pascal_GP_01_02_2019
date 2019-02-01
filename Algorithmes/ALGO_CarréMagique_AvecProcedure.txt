@@ -1,0 +1,99 @@
+ALGORITHME : Carre_Magique
+//BUT : Afficher un carre magique dont les dimensions sont définies en CONSTANTE
+//ENTREE : Rien
+//SORTIE : Le carré magique
+
+
+
+FONCTION : nb_car(l: ENTIER)
+//BUT : Déterminer le nombre de chiffre d'un entier positif
+//ENTREE : Un entier positif dont on veut déterminer le nombre de chiffres
+//SORTIE : Le nombre de chiffres de cet entier positif
+
+VAR
+	longueur,nb: ENTIER
+
+DEBUT
+	longueur <- 1
+	nb <- l
+	TANTQUE nb => 10 FAIRE
+		longueur <- longueur + 1
+		nb <- nb DIV 10
+	FINTANTQUE
+	nb_car <- longueur
+FIN
+
+
+
+CONST
+	DIMENSIONS <- 5: ENTIER
+
+VAR
+	T: tableau[1..DIMENSIONS,1..DIMENSIONS] de ENTIER
+	x,y,i,longueur_max,longueur: ENTIER
+
+DEBUT
+	//Initialisation du tableau
+	POUR y DE 1 A DIMENSIONS FAIRE
+		POUR x DE 1 A DIMENSIONS FAIRE
+			T[x,y] <- 0
+		FINPOUR
+	FINPOUR
+
+	//Initialisation de la longueur maximale
+	longueur_max <- 1
+	longueur <- 1
+
+	//Initialisation de la position du premier nombre
+	x <- DIMENSIONS DIV 2 + 1
+	y <- DIMENSIONS DIV 2
+
+	//Affectation du tableau
+	POUR i DE 1 A (DIMENSIONS * DIMENSIONS) FAIRE
+		T[x,y] <- i
+		x <- x+1
+		SI x > DIMENSIONS ALORS
+			x <- 1
+		FINSI
+		y <- y-1
+		SI y < 1 ALORS
+			y <- DIMENSIONS
+		FINSI
+		SI T[x,y] > 0 ALORS
+			x <- x-1
+			SI x < 1 ALORS
+				x <- DIMENSIONS
+			FINSI
+			y <- y-1
+			SI y < 1 ALORS
+				y <- DIMENSIONS
+			FINSI
+		FINSI
+	FINPOUR
+
+	//Affectation du nombre de chiffres de la plus grande valeur
+	longueur_max <- nb_car(i)
+
+	//Ecriture du carré magique
+	POUR x DE 1 A DIMENSIONS * (longueur_max+1) + 1 FAIRE
+		ECRIRE '_'
+	FINPOUR
+	POUR y DE 1 A DIMENSIONS FAIRE
+		ECRIRE '|'
+		POUR x DE 1 A DIMENSIONS FAIRE
+			longueur <- nb_car(T[x,y])
+			POUR i DE 1 A longueur_max - longueur FAIRE
+				ECRIRE ' '
+			FINPOUR
+			ECRIRE T[x,y],'|'
+		FINPOUR
+		ECRIRE
+		ECRIRE '|'
+		POUR x DE 1 A DIMENSIONS FAIRE
+			POUR i DE 1 A longueur_max FAIRE
+				ECRIRE '_'
+			FINPOUR
+			ECRIRE '|'
+		FINPOUR
+	FINPOUR
+FIN
